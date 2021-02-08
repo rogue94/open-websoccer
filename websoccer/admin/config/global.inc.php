@@ -124,6 +124,9 @@ try {
 	die('<h1>Sorry, our data base is currently not available</h1><p>We are working on it.</p>');
 }
 
+//PHP7 fix
+session_set_cookie_params(7200,"/");
+session_start();
 // register own session handler
 $handler = new DbSessionManager($db, $website);
 session_set_save_handler(
@@ -137,8 +140,9 @@ session_set_save_handler(
 
 // the following prevents unexpected effects when using objects as save handlers
 // see http://php.net/manual/en/function.session-set-save-handler.php
-register_shutdown_function('session_write_close');
-session_start();
+//PHP7 fix
+////register_shutdown_function('session_write_close');
+////session_start();
 
 // always set time zone in order to prevent PHP warnings
 try {
